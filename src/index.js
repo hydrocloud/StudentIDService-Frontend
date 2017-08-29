@@ -2,6 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import * as colors from 'material-ui/styles/colors';
+import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import injectTapEventPlugin from "react-tap-event-plugin";
 import AppBar from "material-ui/AppBar";
 
@@ -14,8 +17,51 @@ import * as LoginController from "./LoginController.js";
 export class App extends React.Component {
     constructor(props) {
         super(props);
+
+        let primaryColorName = "cyan";
+
+        switch(Math.floor(Math.random() * 10000) % 8) {
+            case 0: {
+                primaryColorName = "purple";
+                break;
+            }
+            case 1: {
+                primaryColorName = "deepPurple";
+                break;
+            }
+            case 2: {
+                primaryColorName = "indigo";
+                break;
+            }
+            case 3: {
+                primaryColorName = "blue";
+                break;
+            }
+            case 4: {
+                primaryColorName = "lightBlue";
+                break;
+            }
+            case 5: {
+                primaryColorName = "cyan";
+                break;
+            }
+            case 6: {
+                primaryColorName = "teal";
+                break;
+            }
+            case 7: {
+                primaryColorName = "green";
+                break;
+            }
+        }
+
+        this.baseTheme = lightBaseTheme;
+        this.baseTheme.palette.primary1Color = colors[primaryColorName + "500"];
+        this.baseTheme.palette.primary2Color = colors[primaryColorName + "700"];
+
         this.state = {
-            current: <GlobalLoadingView />
+            current: <GlobalLoadingView />,
+            theme: getMuiTheme(this.baseTheme)
         };
     }
 
@@ -88,7 +134,7 @@ export class App extends React.Component {
 
     render() {
         return (
-            <MuiThemeProvider>
+            <MuiThemeProvider muiTheme={this.theme}>
                 <div>
                     <AppBar showMenuIconButton={false} title="Student ID" style={{position: "fixed", width: "100%", top: 0, left: 0}} />
                     <div style={{marginTop: "100px", marginBottom: "30px", width: "100%", paddingLeft: "30px", paddingRight: "30px", boxSizing: "border-box"}}>
