@@ -30,7 +30,10 @@ export default class UserInfoView extends React.Component {
         this.setState({
             body: (
                 <div>
-                    <p>欢迎, {info.school_name} {info.class_name} {info.name}</p>
+                    <p style={{fontSize: "14px", lineHeight: "36px"}}>
+                        <span>{info.school_name} {info.class_name}</span><br />
+                        <strong>{info.name}</strong>
+                    </p>
                     <FlatButton
                         label="选项"
                         primary={true}
@@ -91,7 +94,6 @@ export default class UserInfoView extends React.Component {
         return (
             <div>
                 <Paper style={{padding: "20px", boxSizing: "border-box"}}>
-                    <h3>用户信息</h3>
                     {this.state.body}
                     {this.state.maybeUserOptions}
                 </Paper>
