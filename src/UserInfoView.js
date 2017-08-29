@@ -1,11 +1,12 @@
 import React from "react";
 import CircularProgress from "material-ui/CircularProgress";
 import Paper from 'material-ui/Paper';
-import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import { List, ListItem } from 'material-ui/List';
 import * as LoginController from "./LoginController.js";
+import ExamListView from "./ExamListView.js";
+import NormalDialog from "./NormalDialog.js";
 
 export default class UserInfoView extends React.Component {
     constructor(props) {
@@ -73,7 +74,8 @@ export default class UserInfoView extends React.Component {
         );
         this.setState({
             maybeUserOptions: (
-                <UserOptions
+                <NormalDialog
+                    title="选项"
                     content={options}
                     onClose={() => {
                         this.setState({
@@ -93,6 +95,7 @@ export default class UserInfoView extends React.Component {
                     {this.state.body}
                     {this.state.maybeUserOptions}
                 </Paper>
+                <ExamListView />
             </div>
         )
     }

@@ -91,7 +91,7 @@ export class App extends React.Component {
             <MuiThemeProvider>
                 <div>
                     <AppBar showMenuIconButton={false} title="Student ID" style={{position: "fixed", width: "100%", top: 0, left: 0}} />
-                    <div style={{marginTop: "100px", width: "100%", paddingLeft: "30px", paddingRight: "30px", boxSizing: "border-box"}}>
+                    <div style={{marginTop: "100px", marginBottom: "30px", width: "100%", paddingLeft: "30px", paddingRight: "30px", boxSizing: "border-box"}}>
                         {this.state.current}
                     </div>
                 </div>
