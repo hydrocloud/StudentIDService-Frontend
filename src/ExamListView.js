@@ -32,7 +32,7 @@ export default class ExamListView extends React.Component {
                     key={v.Id}
                     primaryText={v.Name}
                     secondaryText={new Date(v.Time).toLocaleDateString()}
-                    onClick={() => this.showDetailsDialog(v)}
+                    onTouchTap={() => this.showDetailsDialog(v)}
                 />
             ))
         })
