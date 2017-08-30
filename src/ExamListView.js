@@ -25,9 +25,6 @@ export default class ExamListView extends React.Component {
     async update() {
         let exams = await ExamController.getExamList();
         exams.sort((a, b) => b.Time - a.Time);
-        exams.forEach((v, i) => {
-            v.Id = "" + i + v.Name + v.Time;
-        });
 
         this.setState({
             exams: exams.map(v => (

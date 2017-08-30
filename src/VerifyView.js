@@ -1,6 +1,7 @@
 import React from "react";
 import TextField from 'material-ui/TextField';
 import RaisedButton from "material-ui/RaisedButton";
+import FlatButton from "material-ui/FlatButton";
 import Paper from 'material-ui/Paper';
 import * as LoginController from "./LoginController.js";
 
@@ -12,6 +13,14 @@ export default class VerifyView extends React.Component {
             zxUsername: "",
             zxPassword: ""
         };
+    }
+
+    componentDidMount() {
+        this.setState({
+            loading: false,
+            zxUsername: "",
+            zxPassword: ""
+        });
     }
 
     async doLogin() {
@@ -29,6 +38,7 @@ export default class VerifyView extends React.Component {
                 {}
             ));
         } catch(e) {
+            console.log(e);
             alert("验证失败: " + e);
         }
 
@@ -36,6 +46,28 @@ export default class VerifyView extends React.Component {
             loading: false
         });
     }
+
+    async doLogout() {
+        this.setState({
+            loading: true
+        });
+
+        try {
+            await LoginController.logout();
+            document.dispatchEvent(new CustomEvent(
+                "requestrestart",
+                {}
+            ));
+        } catch(e) {
+            console.log(e);
+            alert(e);
+        }
+
+        this.setState({
+            loading: false
+        });
+    }
+
     render() {
         return (
             <Paper style={{padding: "20px", boxSizing: "border-box"}}>
@@ -58,7 +90,13 @@ export default class VerifyView extends React.Component {
                     label="登录"
                     primary={true}
                     onTouchTap={() => this.doLogin()}
-                    disabled={this.loading}
+                    disabled={this.state.loading}
+                />
+                <FlatButton
+                    label="登出"
+                    primary={true}
+                    onTouchTap={() => this.doLogout()}
+                    disabled={this.state.loading}
                 />
             </Paper>
         )

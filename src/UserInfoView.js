@@ -25,19 +25,22 @@ export default class UserInfoView extends React.Component {
     }
 
     async fetchAndUpdate() {
-        let info = await LoginController.getStudentInfo();
+        let userInfo = await LoginController.getUserInfo();
+        let studentInfo = await LoginController.getStudentInfo();
 
         this.setState({
             body: (
                 <div>
                     <p style={{fontSize: "14px", lineHeight: "36px"}}>
-                        <span>{info.school_name} {info.class_name}</span><br />
-                        <strong>{info.name}</strong>
+                        <span>{studentInfo.school_name} {studentInfo.class_name}</span><br />
+                        <strong>{studentInfo.name}</strong>{userInfo.level ? (
+                            <span style={{color: "#FF0000"}}> (Level {userInfo.level})</span>
+                        ) : null}
                     </p>
                     <FlatButton
                         label="选项"
                         primary={true}
-                        onTouchTap={() => this.openOptionsDialog()}
+                        onTouchTap={() => this.openOptionsDialog(userInfo, studentInfo)}
                     />
                 </div>
             )
@@ -60,9 +63,10 @@ export default class UserInfoView extends React.Component {
         ));
     }
 
-    openOptionsDialog() {
+    openOptionsDialog(userInfo, studentInfo) {
         let options = (
             <div>
+                <p>用户: {userInfo.username}</p>
                 <FlatButton
                     label="重置学生认证"
                     secondary={true}
@@ -98,32 +102,6 @@ export default class UserInfoView extends React.Component {
                     {this.state.maybeUserOptions}
                 </Paper>
                 <ExamListView />
-            </div>
-        )
-    }
-}
-
-class UserOptions extends React.Component {
-    constructor(props) {
-        super(props);
-        this.defaultActions = [
-            <FlatButton
-                label="OK"
-                primary={true}
-                onTouchTap={() => this.props.onClose()}
-            />
-        ];
-    }
-
-    render() {
-        return (
-            <div>
-                <Dialog
-                    title="选项"
-                    actions={this.props.actions || this.defaultActions}
-                    modal={true}
-                    open={true}
-                >{this.props.content}</Dialog>
             </div>
         )
     }

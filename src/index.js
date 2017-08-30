@@ -7,11 +7,13 @@ import * as colors from 'material-ui/styles/colors';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import injectTapEventPlugin from "react-tap-event-plugin";
 import AppBar from "material-ui/AppBar";
+import FlatButton from 'material-ui/FlatButton';
 
 import GlobalLoadingView from "./GlobalLoadingView.js";
 import VerifyView from "./VerifyView.js";
 import LoginView from "./LoginView.js";
 import UserInfoView from "./UserInfoView.js";
+import ExecutorListView from "./ExecutorListView.js";
 import * as LoginController from "./LoginController.js";
 
 export class App extends React.Component {
@@ -61,7 +63,9 @@ export class App extends React.Component {
 
         this.state = {
             current: <GlobalLoadingView />,
-            theme: getMuiTheme(this.baseTheme)
+            theme: getMuiTheme(this.baseTheme),
+            canListExecutors: false,
+            executorListView: null
         };
     }
 
@@ -92,10 +96,12 @@ export class App extends React.Component {
         let loggedIn = await LoginController.isLoggedIn();
         
         let targetView = null;
+        let userInfo = null;
 
         if(loggedIn) {
             if(await LoginController.isVerified()) {
                 targetView = <UserInfoView />;
+                userInfo = await LoginController.getUserInfo();
             } else {
                 targetView = <VerifyView />;
             }
@@ -104,7 +110,8 @@ export class App extends React.Component {
         }
 
         this.setState({
-            current: targetView
+            current: targetView,
+            userInfo: userInfo
         });
     }
 
@@ -132,14 +139,40 @@ export class App extends React.Component {
         });
     }
 
+    showExecutorListView() {
+        this.setState({
+            executorListView: (
+                <ExecutorListView onClose={() => this.setState({
+                    executorListView: null
+                })} />
+            )
+        });
+    }
+
     render() {
         return (
             <MuiThemeProvider muiTheme={this.theme}>
                 <div>
-                    <AppBar showMenuIconButton={false} title="Student ID" style={{position: "fixed", width: "100%", top: 0, left: 0}} />
+                    <AppBar
+                        showMenuIconButton={false}
+                        title="Student ID"
+                        style={{position: "fixed", width: "100%", top: 0, left: 0}}
+                        iconElementRight={
+                            (
+                                this.state.userInfo
+                                && this.state.userInfo.level >= 5
+                            )
+                            ? <FlatButton
+                                label="Executors"
+                                onTouchTap={() => this.showExecutorListView()}
+                            />
+                            : null
+                        }
+                    />
                     <div style={{marginTop: "100px", marginBottom: "30px", width: "100%", paddingLeft: "30px", paddingRight: "30px", boxSizing: "border-box"}}>
                         {this.state.current}
                     </div>
+                    {this.state.executorListView}
                 </div>
             </MuiThemeProvider>
         );
