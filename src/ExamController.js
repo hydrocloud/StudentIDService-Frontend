@@ -9,6 +9,15 @@ export async function getExamList() {
     return examList;
 }
 
+export async function requestRankUpdate(examId) {
+    let result = await api.request(
+        "admin/exam/rank/update/total_scores?exam_id=" + encodeURIComponent(examId)
+    );
+    if(result.err !== 0) {
+        throw result.msg;
+    }
+}
+
 export function flushCache() {
     examList = null;
 }

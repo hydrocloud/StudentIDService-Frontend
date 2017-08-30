@@ -44,8 +44,38 @@ export default class ExamListView extends React.Component {
             return;
         }
 
+        let rankClickCount = 1;
+        let rankLastClickTime = 0;
+
+        let onRankClick = () => {
+            let t = Date.now();
+            if(t - rankLastClickTime < 200) {
+                rankClickCount++;
+            } else {
+                rankClickCount = 1;
+            }
+            rankLastClickTime = t;
+            if(rankClickCount == 5) {
+                rankClickCount = 1;
+                ExamController.requestRankUpdate(info.Id)
+                    .then(() => alert("Rank Update Scheduled"))
+                    .catch(e => alert("Rank Update Failed: " + e));
+            }
+        }
+
         let content = (
             <List>
+                <ListItem
+                    key="total_score"
+                    primaryText="总分"
+                    secondaryText={"" + info.Score}
+                />
+                <ListItem
+                    key="rank"
+                    primaryText="排名"
+                    secondaryText={info.RankPercent ? ("前 " + info.RankPercent + "%") : "未知"}
+                    onTouchTap={onRankClick}
+                />
                 {info.Subjects.map((v, i) => {
                     return (
                         <ListItem
