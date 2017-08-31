@@ -9,10 +9,11 @@ export default class LoginView extends React.Component {
             console.log(e);
             return;
         }
+        /*
         document.dispatchEvent(new CustomEvent(
             "logincomplete",
             {}
-        ));
+        ));*/
     }
 
     render() {

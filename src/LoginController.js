@@ -9,14 +9,12 @@ export async function login() {
         return;
     }
 
-    let token = await window.oneidentity.login(document.getElementById("login-container"));
-    let result = await api.request("user/login", {
-        client_token: token
-    });
-    if(result.err !== 0) {
-        throw new Error("登录失败: " + result.msg);
-    }
-    loggedIn = true;
+    let callbackPath = window.location.href.split("/").slice(0, 3).join("/") + "/auth/callback";
+    window.location.replace(
+        "https://oneidentity.me/web/?callback="
+        + encodeURIComponent(callbackPath)
+        + "#auth"
+    );
 }
 
 export async function isLoggedIn() {
