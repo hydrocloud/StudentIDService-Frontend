@@ -1,5 +1,7 @@
 import React from "react";
 import * as LoginController from "./LoginController.js";
+import LinearProgress from 'material-ui/LinearProgress';
+import Dialog from 'material-ui/Dialog';
 
 export default class LoginView extends React.Component {
     async componentDidMount() {
@@ -18,7 +20,14 @@ export default class LoginView extends React.Component {
 
     render() {
         return (
-            <div></div>
+            <div>
+                <Dialog
+                    modal={true}
+                    open={true}
+                >
+                    <LinearProgress mode="indeterminate" />
+                </Dialog>
+            </div>
         )
     }
 }

@@ -66,6 +66,11 @@ export default class ExamListView extends React.Component {
         let content = (
             <List>
                 <ListItem
+                    key="item_id"
+                    primaryText="ID"
+                    secondaryText={info.Id}
+                />
+                <ListItem
                     key="total_score"
                     primaryText="总分"
                     secondaryText={"" + info.Score}
@@ -81,7 +86,7 @@ export default class ExamListView extends React.Component {
                         <ListItem
                             key={v.Name + i}
                             primaryText={v.Name}
-                            secondaryText={"" + v.Score}
+                            secondaryText={"" + v.Score + " " + (v.RankPercent ? ("(前 " + v.RankPercent + "%)") : "")}
                         />
                     );
                 })}

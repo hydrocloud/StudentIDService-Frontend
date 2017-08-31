@@ -16,6 +16,8 @@ import UserInfoView from "./UserInfoView.js";
 import ExecutorListView from "./ExecutorListView.js";
 import * as LoginController from "./LoginController.js";
 
+require("./ConsoleUtils.js");
+
 export class App extends React.Component {
     constructor(props) {
         super(props);
