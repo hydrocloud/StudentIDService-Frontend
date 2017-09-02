@@ -9,11 +9,11 @@ export async function login() {
         return;
     }
 
-    let callbackPath = window.location.href.split("/").slice(0, 3).join("/") + "/auth/callback";
+    let callbackPath = window.location.href.split("/").slice(0, 3).join("/") + "/auth/callback_v3";
     window.location.replace(
-        "https://oneidentity.me/web/?callback="
+        "https://v3.oneidentity.me/quickpass/login?callback="
         + encodeURIComponent(callbackPath)
-        + "#auth"
+        + "&request_id="
     );
 }
 
