@@ -4,17 +4,13 @@ let loggedIn = false;
 let userInfo = null;
 let studentInfo = null;
 
-export async function login() {
+export async function login(token) {
     if(loggedIn) {
         return;
     }
 
-    let callbackPath = window.location.href.split("/").slice(0, 3).join("/") + "/auth/callback_v3";
-    window.location.replace(
-        "https://v3.oneidentity.me/quickpass/login?callback="
-        + encodeURIComponent(callbackPath)
-        + "&request_id="
-    );
+    let targetPath = window.location.href.split("/").slice(0, 3).join("/") + "/auth/callback_v3?client_token=" + encodeURIComponent(token);
+    window.location.replace(targetPath);
 }
 
 export async function isLoggedIn() {

@@ -182,6 +182,7 @@ export class App extends React.Component {
 }
 
 injectTapEventPlugin();
+window.oneidentity.setServiceWindow(document.getElementById("oneidentity-service").contentWindow);
 
 ReactDOM.render(
     <App />,
